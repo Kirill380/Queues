@@ -1,0 +1,32 @@
+version: '3.5'
+
+networks:
+  backend:
+    driver: bridge
+
+
+services:
+  redis:
+    build: ./redis
+    volumes:
+      - ~/.data/redis:/data
+    ports:
+      - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 500M
+    networks:
+      - backend
+  beanstalkd:
+    build: ./beanstalkd
+    ports:
+      - "11300:11300"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 500M
+    networks:
+      - backend
